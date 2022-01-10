@@ -4,38 +4,46 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 ## Endpoints
 ---
 
+**Search Tasks Endpoint**
 `GET /tasks/search?name={string}&date=[date]&completion={bool}`
 
 Response:
 
 ```
-arrTasks[]
-
-{
-    ID: int,
-    Name: string,
-    Date: string,
-    Completion: bool
-}
+200 OK
+[
+    {
+        "id": int,
+        "name": string,
+        "date": date,
+        "completion": bool
+    },
+    ...
+]
 ```
 \
+
+**Fetch Task Endpoint**
 `GET /tasks/{id}`
 
 Response:
 ```
+200 OK
 {
-    ID: int,
-    Name: string,
-    Date: string,
-    Completion: bool
+    "id": int,
+    "name": string,
+    "date": date,
+    "completion": bool
 }
 ```
 \
+
+**Create Task Endpoint**
 `POST /tasks`
 Body:
 ```
 {
-    "id": int,
+    "id": string,
     "name": string,
     "date": string,
     "completion": bool
@@ -44,14 +52,17 @@ Body:
 
 Response:
 ```
+201 CREATED
 {
-    ID: int,
-    Name: string,
-    Date: string,
-    Completion: bool
+    "id": int,
+    "name": string,
+    "date": date,
+    "completion": bool
 }
 ```
 \
+
+**Update Task Endpoint**
 `PUT /tasks`
 Body: 
 ```
@@ -65,23 +76,21 @@ Body:
 
 Response:
 ```
+200 OK
 {
-    ID: int,
-    Name: string,
-    Date: string,
-    Completion: bool
+    "id": int,
+    "name": string,
+    "date": date,
+    "completion": bool
 }
 ```
 \
+
+**Delete To-Do Endpoint**
 `DELETE /tasks/{id}`
 Body: 
-```
-{
-    "id": int
-}
-```
 
 Response
 ```
-"Task Deleted"
+200 OK
 ```
