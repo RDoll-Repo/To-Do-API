@@ -4,6 +4,7 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 ## Endpoints
 ---
 **Fetch All Tasks Endpoint**
+
 `GET /tasks`
 
 Response:
@@ -17,13 +18,15 @@ Response Code: 200 OK
         "createdDate": date,
         "dueDate": date,
         "completed": bool
-    },
+    }
+    ...
 ]
 ```
 <br>
 
 
 **Fetch Task Endpoint**
+
 `GET /tasks/{id}`
 
 Response:
@@ -40,7 +43,9 @@ Response Code: 200 OK
 <br>
 
 **Create Task Endpoint**
+
 `POST /tasks`
+
 Body:
 ```
 {
@@ -64,7 +69,9 @@ Response Code: 201 CREATED
 <br>
 
 **Update Task Endpoint**
+
 `PUT /tasks/{id}`
+
 Body: 
 ```
 {
@@ -87,8 +94,10 @@ Response Code: 200 OK
 ```
 <br>
 
-**Delete To-Do Endpoint**
+**Delete Task Endpoint**
+
 `DELETE /tasks/{id}`
+
 Response:
 ```
 Repsonse Code: 200 OK
