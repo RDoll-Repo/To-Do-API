@@ -5,18 +5,18 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 ---
 
 **Search Tasks Endpoint**
-`GET /tasks/search?name={string}&date=[date]&completion={bool}`
+`GET /tasks/search?taskDescription={string}&date=[date]&completed={bool}`
 
 Response:
 
 ```
-200 OK
+Response Code: 200 OK
 [
     {
         "id": int,
-        "name": string,
-        "date": date,
-        "completion": bool
+        "taskDescription": string,
+        "dueDate": date,
+        "completed": bool
     },
     ...
 ]
@@ -28,12 +28,12 @@ Response:
 
 Response:
 ```
-200 OK
+Response Code: 200 OK
 {
     "id": int,
-    "name": string,
-    "date": date,
-    "completion": bool
+    "taskDescription": string,
+    "dueDate": date,
+    "completed": bool
 }
 ```
 \
@@ -44,20 +44,20 @@ Body:
 ```
 {
     "id": string,
-    "name": string,
-    "date": string,
-    "completion": bool
+    "taskDescription": string,
+    "dueDate": string,
+    "completed": bool
 }
 ```
 
 Response:
 ```
-201 CREATED
+Response Code: 201 CREATED
 {
     "id": int,
-    "name": string,
-    "date": date,
-    "completion": bool
+    "taskDescription": string,
+    "dueDate": date,
+    "completed": bool
 }
 ```
 \
@@ -68,9 +68,9 @@ Body:
 ```
 {
     "id": int,
-    "name": string,
-    "date": string,
-    "completion": bool
+    "taskDescription": string,
+    "dueDate": string,
+    "completed": bool
 }
 ```
 
@@ -79,9 +79,9 @@ Response:
 200 OK
 {
     "id": int,
-    "name": string,
-    "date": date,
-    "completion": bool
+    "taskDescription": string,
+    "dueDate": date,
+    "completed": bool
 }
 ```
 \
