@@ -1,9 +1,9 @@
 # To-Do API Specifications
 ---
-This is a proposal for a 'To-Do List' API that will allow the user to manage tasks on a to-do list. They will have to ability to create new tasks and update or delete existing ones. Additionally, they will have access to a variety of views such as "All tasks, tasks arranged or sorted by criteria (IE: Completion Status and Date Added) or a single task given a primary key. 
+This is a proposal for a 'To-Do List' API that will allow the user to manage tasks on a to-do list. They will have to ability to create new tasks as well as update or delete existing ones. 
 ## Endpoints
 ---
-**Fetch All Tasks EndPoint**
+**Fetch All Tasks Endpoint**
 `GET /tasks`
 
 Response:
@@ -14,6 +14,7 @@ Response Code: 200 OK
     {
         "id": int,
         "taskDescription": string,
+        "createdDate": date,
         "dueDate": date,
         "completed": bool
     },
@@ -31,6 +32,7 @@ Response Code: 200 OK
 {
     "id": int,
     "taskDescription": string,
+    "createdDate": date,
     "dueDate": date,
     "completed": bool
 }
@@ -43,7 +45,7 @@ Body:
 ```
 {
     "taskDescription": string,
-    "dueDate": string,
+    "dueDate": date,
     "completed": bool
 }
 ```
@@ -54,6 +56,7 @@ Response Code: 201 CREATED
 {
     "id": int,
     "taskDescription": string,
+    "createdDate": date,
     "dueDate": date,
     "completed": bool
 }
@@ -66,17 +69,18 @@ Body:
 ```
 {
     "taskDescription": string,
-    "dueDate": string,
+    "dueDate": date,
     "completed": bool
 }
 ```
 
 Response:
 ```
-200 OK
+Response Code: 200 OK
 {
     "id": int,
     "taskDescription": string,
+    "createdDate": date,
     "dueDate": date,
     "completed": bool
 }
@@ -85,7 +89,7 @@ Response:
 
 **Delete To-Do Endpoint**
 `DELETE /tasks/{id}`
-Response
+Response:
 ```
 Repsonse Code: 200 OK
 ```
