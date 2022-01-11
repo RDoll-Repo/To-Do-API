@@ -7,7 +7,7 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 
 `GET /tasks`
 
-Response:
+Response Body:
 
 ```
 Response Code: 200 OK
@@ -29,7 +29,7 @@ Response Code: 200 OK
 
 `GET /tasks/{id}`
 
-Response:
+Response Body:
 ```
 Response Code: 200 OK
 {
@@ -46,7 +46,7 @@ Response Code: 200 OK
 
 `POST /tasks`
 
-Body:
+Request Body:
 ```
 {
     "taskDescription": string,
@@ -55,7 +55,7 @@ Body:
 }
 ```
 
-Response:
+Response Body:
 ```
 Response Code: 201 CREATED
 {
@@ -72,16 +72,18 @@ Response Code: 201 CREATED
 
 `PUT /tasks/{id}`
 
-Body: 
+Request Body: 
 ```
 {
+    "id": int,                   //inmutable
     "taskDescription": string,
+    "createdDate": date,         //inmutable
     "dueDate": date,
     "completed": bool
 }
 ```
 
-Response:
+Response Body:
 ```
 Response Code: 200 OK
 {
@@ -98,7 +100,7 @@ Response Code: 200 OK
 
 `DELETE /tasks/{id}`
 
-Response:
+Response Body:
 ```
 Repsonse Code: 200 OK
 ```
