@@ -1,0 +1,22 @@
+{
+  "name": "to-do-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc index.ts && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RDoll-Repo/To-Do-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RDoll-Repo/To-Do-API/issues"
+  },
+  "homepage": "https://github.com/RDoll-Repo/To-Do-API#readme",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
