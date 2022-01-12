@@ -1,2 +1,2 @@
-var testString = "i h8 getsuyo";
+var testString = "Typescript Implented";
 console.log(testString);

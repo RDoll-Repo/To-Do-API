@@ -1,3 +1,2 @@
-"use strict";
-var testString = "If you see this, I have been able to successfully integrate typescript into my project.";
+var testString = "Typescript Implented";
 console.log(testString);
