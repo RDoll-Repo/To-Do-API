@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc index.ts && node index.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,10 @@
     "url": "https://github.com/RDoll-Repo/To-Do-API/issues"
   },
   "homepage": "https://github.com/RDoll-Repo/To-Do-API#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "typescript": "^4.5.4"
+  },
   "dependencies": {
     "@hapi/hapi": "^20.2.1"
   }
