@@ -64,8 +64,11 @@ const init = async () =>
                     completed:request.payload.completed
                 };
 
+                // Updating array with the new entry
                 Tasks.push(Task);
-                return Task;
+
+                // hapi sends a 200 OK by default, so I'm specifiying a 201 here.
+                return h.response(Task).code(201)
             }
         }
     )
@@ -103,7 +106,7 @@ const init = async () =>
             {
                 delete Tasks[request.params.id - 1];
 
-                return Tasks;
+                return null;
             }
         }
     )

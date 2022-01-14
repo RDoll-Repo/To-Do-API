@@ -84,7 +84,7 @@ var init = function () { return __awaiter(void 0, void 0, void 0, function () {
                             completed: request.payload.completed
                         };
                         Tasks.push(Task);
-                        return Task;
+                        return h.response(Task).code(201);
                     }
                 });
                 // Update Task
@@ -110,7 +110,7 @@ var init = function () { return __awaiter(void 0, void 0, void 0, function () {
                     path: '/tasks/{id}',
                     handler: function (request, h) {
                         delete Tasks[request.params.id - 1];
-                        return Tasks;
+                        return null;
                     }
                 });
                 return [4 /*yield*/, server.start()];
