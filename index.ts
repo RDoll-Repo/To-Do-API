@@ -26,7 +26,9 @@ const init = async () =>
         {
             method: 'GET',
             path: '/tasks',
-            handler: (request: any, h: any) => 
+            handler: (
+                request: any, 
+                h: any) => 
             {
                 // Returns the whole array
                 return Tasks;
@@ -39,7 +41,12 @@ const init = async () =>
         {
             method: 'GET',
             path: '/tasks/{id}',
-            handler: (request: { params: { id: number; }; }, h: any) => 
+            handler: (
+                request: { 
+                    params: { 
+                        id: number; }; 
+                    }, 
+                    h: any) => 
             {
                 // Returns one element of the array
                 return Tasks[request.params.id - 1];
@@ -52,7 +59,15 @@ const init = async () =>
         {
             method: 'POST',
             path: '/tasks',
-            handler: (request: { payload: { taskDescription: any; dateCreated: any; dueDate: any; completed: any; }; }, h: any) =>
+            handler: (
+                request: { 
+                    payload: { 
+                        taskDescription: any; 
+                        dateCreated: any; 
+                        dueDate: any; 
+                        completed: any; }; 
+                    }, 
+                    h: any) =>
             {
                 const Task =
                 {
@@ -78,7 +93,19 @@ const init = async () =>
         {
             method: 'PUT',
             path: '/tasks/{id}',
-            handler: (request: { params: { id: number; }; payload: { taskDescription: string; dueDate: string; completed: boolean; }; }, h: any) =>
+            handler: (
+                request: { 
+                    params: { 
+                        id: number; 
+                    }; 
+                payload: { 
+                    taskDescription: string; 
+                    dueDate: string; 
+                    completed: boolean; 
+                }; 
+            },
+            h: any
+            ) =>
             {
                 // Update the correct task
                 let Task = Tasks[request.params.id - 1]
@@ -102,7 +129,11 @@ const init = async () =>
         {
             method: 'DELETE',
             path: '/tasks/{id}',
-            handler: (request: { params: { id: number; }; }, h: any) =>
+            handler: (
+                request: { 
+                    params: { id: number; }; 
+                }, 
+                h: any) =>
             {
                 delete Tasks[request.params.id - 1];
 
