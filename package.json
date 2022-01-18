@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc index.ts && node index.js"
+    "test": "tsc --outdir dist && node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -24,3 +24,4 @@
     "@hapi/hapi": "^20.2.1"
   }
 }
+ 
