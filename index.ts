@@ -9,6 +9,20 @@ const init = async () => {
         host: 'localhost'
     });
 
+    server.route(
+        {
+            method: 'GET',
+            path: '/example',
+            handler: (
+                request: any, 
+                h: any) => 
+            {
+                // Demonstation of return
+                return "This is an example return."
+            }
+        }
+    )
+
     await server.start();
     console.log('Server running on %s', server.info.uri);
 };
