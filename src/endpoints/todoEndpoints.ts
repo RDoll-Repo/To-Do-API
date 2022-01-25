@@ -1,12 +1,6 @@
 'use strict';
 
 import {Tasks} from "../models/ArrayModel"
-
-
-// All tasks 
-// export var getAll =
-
-
 export default [
     
     // Get all

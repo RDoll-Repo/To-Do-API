@@ -2,10 +2,6 @@
 
 const Hapi = require('@hapi/hapi');
 
-import {
-    Tasks
-} from "./src/models/ArrayModel"
-
 import Routes from './src/endpoints/todoEndpoints'
 
 const init = async () =>
