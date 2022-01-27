@@ -7,40 +7,108 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 
 `GET /tasks`
 
+Parameters: 
+    
+    name: ?completed=bool
+    type: bool
+    description: filters tasks by completed status
+     
+    name: ?sort_by=+dueDate (Optional)
+    type: datetime
+    description: sorts by due date (ascending)
+
+    name: ?sort_by=-dueDate (Optional)
+    type: datetime
+    description: sorts by due date (descending)
+
+    name: ?sort_by=+createdDate (Optional)
+    type: datetime
+    description: sorts by created date (ascending)
+
+    name: ?sort_by=-createdDate (Optional)
+    type: datetime
+    description: sorts by created date (descending)
+
+
+
+
+Response Code: 200 OK 
 Response Body:
 
 ```
-Response Code: 200 OK
 [
     {
-        "id": int,
-        "taskDescription": string,
-        "createdDate": date,
-        "dueDate": date,
+        "id": GUID,
+        "taskDescription": "string",
+        "createdDate": datetime,
+        "dueDate": datetime,
         "completed": bool
-    }
+    },
+    {
+        "id": GUID,
+        "taskDescription": "string",
+        "createdDate": datetime,
+        "dueDate": datetime,
+        "completed": bool
+    },
+    {
+        "id": GUID,
+        "taskDescription": "string",
+        "createdDate": datetime,
+        "dueDate": datetime,
+        "completed": bool
+    },
     ...
 ]
 ```
+
+Failure States: 
+```
+400 Bad Request
+{
+    message: "string"
+}
+
+401 Unauthorized
+{
+    message: "string"
+}
+```
 <br>
+
 
 
 **Fetch Task Endpoint**
 
 `GET /tasks/{id}`
 
+Response Code: 200 OK
 Response Body:
 ```
-Response Code: 200 OK
+
 {
-    "id": int,
-    "taskDescription": string,
-    "createdDate": date,
-    "dueDate": date,
+    "id": GUID,
+    "taskDescription": "string",
+    "createdDate": datetime,
+    "dueDate": datetime,
     "completed": bool
 }
 ```
+Failure States: 
+```
+400 Bad Request
+{
+    message: "string"
+}
+
+401 Unauthorized
+{
+    message: "string"
+}
+```
 <br>
+
+
 
 **Create Task Endpoint**
 
@@ -49,24 +117,39 @@ Response Code: 200 OK
 Request Body:
 ```
 {
-    "taskDescription": string,
-    "dueDate": date,
+    "taskDescription": "string",
+    "dueDate": datetime,
     "completed": bool
 }
 ```
 
+Response Code: 201 CREATED
 Response Body:
 ```
-Response Code: 201 CREATED
+
 {
-    "id": int,
-    "taskDescription": string,
-    "createdDate": date,
-    "dueDate": date,
+    "id": GUID,
+    "taskDescription": "string",
+    "createdDate": datetime,
+    "dueDate": datetime,
     "completed": bool
 }
 ```
+Failure States: 
+400 Bad Request
+{
+    message: "string"
+}```
+
+
+401 Unauthorized
+{
+    message: "string"
+}
+```
 <br>
+
+
 
 **Update Task Endpoint**
 
@@ -75,32 +158,58 @@ Response Code: 201 CREATED
 Request Body: 
 ```
 {
-    "id": int,                   //inmutable
-    "taskDescription": string,
-    "createdDate": date,         //inmutable
-    "dueDate": date,
+    "id": GUID,                      //inmutable
+    "taskDescription": "string",
+    "createdDate": datetime,         //inmutable
+    "dueDate": datetime,
     "completed": bool
 }
 ```
 
+Response Code: 200 OK
 Response Body:
 ```
-Response Code: 200 OK
+
 {
-    "id": int,
-    "taskDescription": string,
-    "createdDate": date,
-    "dueDate": date,
+    "id": GUID,
+    "taskDescription": "string",
+    "createdDate": datetime,
+    "dueDate": datetime,
     "completed": bool
 }
 ```
+Failure States: 
+```
+400 Bad Request
+{
+    message: "string"
+}
+
+401 Unauthorized
+{
+    message: "string"
+}
+```
 <br>
+
+
 
 **Delete Task Endpoint**
 
 `DELETE /tasks/{id}`
 
-Response Body:
-```
 Repsonse Code: 200 OK
+Response Body:
+
+Failure States: 
+```
+400 Bad Request
+{
+    message: "string"
+}
+
+401 Unauthorized
+{
+    message: "string"
+}
 ```
