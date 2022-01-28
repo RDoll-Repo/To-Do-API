@@ -40,22 +40,22 @@ Response Body:
     {
         "id": GUID,
         "taskDescription": "string",
-        "createdDate": datetime,
-        "dueDate": datetime,
+        "createdDate": "datetime",
+        "dueDate": "datetime",
         "completed": bool
     },
     {
         "id": GUID,
         "taskDescription": "string",
-        "createdDate": datetime,
-        "dueDate": datetime,
+        "createdDate": "datetime",
+        "dueDate": "datetime",
         "completed": bool
     },
     {
         "id": GUID,
         "taskDescription": "string",
-        "createdDate": datetime,
-        "dueDate": datetime,
+        "createdDate": "datetime",
+        "dueDate": "datetime",
         "completed": bool
     },
     ...
@@ -63,13 +63,9 @@ Response Body:
 ```
 
 Failure States: 
-```
-400 Bad Request
-{
-    message: "string"
-}
 
-401 Unauthorized
+4XX Client Error
+```
 {
     message: "string"
 }
@@ -89,19 +85,15 @@ Response Body:
 {
     "id": GUID,
     "taskDescription": "string",
-    "createdDate": datetime,
-    "dueDate": datetime,
+    "createdDate": "datetime",
+    "dueDate": "datetime",
     "completed": bool
 }
 ```
 Failure States: 
-```
-400 Bad Request
-{
-    message: "string"
-}
 
-401 Unauthorized
+4XX Client Error
+```
 {
     message: "string"
 }
@@ -118,7 +110,7 @@ Request Body:
 ```
 {
     "taskDescription": "string",
-    "dueDate": datetime,
+    "dueDate": "datetime",
     "completed": bool
 }
 ```
@@ -126,23 +118,18 @@ Request Body:
 Response Code: 201 CREATED
 Response Body:
 ```
-
 {
     "id": GUID,
     "taskDescription": "string",
-    "createdDate": datetime,
-    "dueDate": datetime,
+    "createdDate": "datetime",
+    "dueDate": "datetime",
     "completed": bool
 }
 ```
 Failure States: 
-400 Bad Request
-{
-    message: "string"
-}```
 
-
-401 Unauthorized
+4XX Client Error
+```
 {
     message: "string"
 }
@@ -160,32 +147,28 @@ Request Body:
 {
     "id": GUID,                      //inmutable
     "taskDescription": "string",
-    "createdDate": datetime,         //inmutable
-    "dueDate": datetime,
+    "createdDate": "datetime",         //inmutable
+    "dueDate": "datetime",
     "completed": bool
 }
 ```
 
 Response Code: 200 OK
 Response Body:
-```
 
+```
 {
     "id": GUID,
     "taskDescription": "string",
-    "createdDate": datetime,
-    "dueDate": datetime,
+    "createdDate": "datetime",
+    "dueDate": "datetime",
     "completed": bool
 }
 ```
 Failure States: 
-```
-400 Bad Request
-{
-    message: "string"
-}
 
-401 Unauthorized
+4XX Client Error
+```
 {
     message: "string"
 }
@@ -202,14 +185,11 @@ Repsonse Code: 200 OK
 Response Body:
 
 Failure States: 
-```
-400 Bad Request
-{
-    message: "string"
-}
 
-401 Unauthorized
+4XX Client Error
+```
 {
     message: "string"
 }
+```
 ```
