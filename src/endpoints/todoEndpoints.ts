@@ -1,15 +1,16 @@
 'use strict';
 
-const Hapi = require('hapi/@hapi')
+import { ResponseToolkit } from "hapi";
+import { UrlWithParsedQuery } from "url";
 import {Tasks} from "../models/ArrayModel"
 import {Task} from "../models/ArrayModel"
 export default [
-    
+
     // Get all
     {
         method: 'GET',
         path: '/tasks',
-        handler: async(request: any, h: string) => 
+        handler: async(request: UrlWithParsedQuery, h: string) => 
         {
             // Add an empty array for filtering/sorting
             var queriedTasks:Task[] = []
@@ -29,9 +30,11 @@ export default [
             }
             else
             {
+                // Assigns the base array to the response if no filter was toggled
                 queriedTasks = Tasks;
             }
 
+            // Selects case based upon what query paramter was entered for sorting. 
             switch (request.query.sort_by)
             {
                 case 'createdAt.asc':
@@ -65,7 +68,7 @@ export default [
                 params: { 
                     id: number; }; 
                 }, 
-                h: any) => 
+                h: string) => 
         {
             // Returns one element of the array
             return Tasks[request.params.id - 1];
@@ -84,7 +87,7 @@ export default [
                     dueDate: Date; 
                     completed: boolean; }; 
                 }, 
-                h: any) =>
+                h: ResponseToolkit) =>
         {
             const Task =
             {
@@ -119,7 +122,7 @@ export default [
                 completed: boolean; 
             }; 
         },
-        h: any
+        h: string
         ) =>
         {
             // Update the correct task
@@ -145,7 +148,7 @@ export default [
             request: { 
                 params: { id: number; }; 
             }, 
-            h: any) =>
+            h: string) =>
         {
             Tasks.splice((request.params.id - 1), 1)
             return null;
