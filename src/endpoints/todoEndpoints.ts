@@ -37,21 +37,29 @@ export default [
             // Selects case based upon what query paramter was entered for sorting. 
             switch (request.query.sort_by)
             {
-                case 'createdAt.asc':
-                    queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+                case 'createdAt':
+                   
+                    if (request.query.order_by == 'asc')
+                    {
+                        queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+                    }
+                    else if (request.query.order_by == 'desc')
+                    {
+                        queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+                    }
                     break;
 
-                case 'createdAt.desc':
-                    queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+                case 'dueDate':
+                    if (request.query.order_by == 'asc')
+                    {
+                        queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
+                    }
+                    else if (request.query.order_by == 'desc')
+                    {
+                        queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
+                    }
                     break;
 
-                case 'dueDate.asc':
-                    queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
-                    break;
-
-                case 'dueDate.desc':
-                    queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
-                    break;
             }
 
             // Returns the filtered/sorted array
