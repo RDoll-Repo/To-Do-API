@@ -9,28 +9,17 @@ This is a proposal for a 'To-Do List' API that will allow the user to manage tas
 
 Parameters: 
     
-    name: ?completed=bool
-    type: bool
-    description: filters tasks by completed status
-     
-    name: ?sort_by=+dueDate (Optional)
-    type: datetime
-    description: sorts by due date (ascending)
+    Parameter: Filter
+    Name: Completed
+    Possible Values: true, false
+    Optional?: Yes
+    Description: Filters tasks by whether or not they're completed. True will show completed tasks and false will show incomplete tasks
 
-    name: ?sort_by=-dueDate (Optional)
-    type: datetime
-    description: sorts by due date (descending)
-
-    name: ?sort_by=+createdAt (Optional)
-    type: datetime
-    description: sorts by created date (ascending)
-
-    name: ?sort_by=-createdAt (Optional)
-    type: datetime
-    description: sorts by created date (descending)
-
-
-
+    Parameter: SortBy
+    Name: Date
+    Possible Values: createdAt, dueDate; asc, desc
+    Optional?: Yes
+    Description: Sorts by creation time or due date. The list can be returned in ascending or descending order for either datetime property.
 
 Response Code: 200 OK 
 Response Body:
