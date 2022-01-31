@@ -2,35 +2,29 @@
 
 const Hapi = require('@hapi/hapi');
 
-const init = async () => {
+import Routes from './src/endpoints/todoEndpoints'
 
-    const server = Hapi.server({
-        port: 3000,
-        host: 'localhost'
-    });
-
-    server.route(
+const init = async () =>
+{
+    const server = Hapi.server(
         {
-            method: 'GET',
-            path: '/example',
-            handler: (
-                request: any, 
-                h: any) => 
-            {
-                // Demonstation of return
-                return "This is an example return."
-            }
+            port: 3000,
+            host: 'localhost'
         }
-    )
+    );
+
+    // Generic route that handles all paths
+    server.route(Routes)
 
     await server.start();
-    console.log('Server running on %s', server.info.uri);
+    console.log(`Server running on ${server.info.uri}`);
 };
 
-process.on('unhandledRejection', (err) => {
-
+process.on('unhandled rejection', (err) =>
+{
     console.log(err);
     process.exit(1);
 });
 
 init();
+
