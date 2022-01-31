@@ -1,4 +1,5 @@
-class Task {
+
+export class Task {
     id: number;
     taskDescription: string;
     createdAt: Date;

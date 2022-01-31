@@ -1,16 +1,35 @@
 'use strict';
 
+import { arrayBuffer } from "stream/consumers";
 import {Tasks} from "../models/ArrayModel"
+import {Task} from "../models/ArrayModel"
 export default [
     
     // Get all
     {
         method: 'GET',
         path: '/tasks',
-        handler: (
-            request: any, 
-            h: any) => 
+        handler: async(request:any ,h: any) => 
         {
+
+            console.log(request.query)
+
+            if (request.query.completed == 'true' || request.query.completed == 'false')
+            {
+                var filteredTasks:Task[] = []
+
+                for (var i = 0; i < Tasks.length; i ++)
+                {
+                    if (Tasks[i].completed.toString() == request.query.completed)
+                    {
+                        filteredTasks.push(Tasks[i]);
+                    }
+                }
+
+                return filteredTasks
+            }
+
+
             // Returns the whole array
             return Tasks;
         }
@@ -20,7 +39,7 @@ export default [
     {
         method: 'GET',
         path: '/tasks/{id}',
-        handler: (
+        handler: (  
             request: { 
                 params: { 
                     id: number; }; 
