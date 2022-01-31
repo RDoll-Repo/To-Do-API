@@ -21,11 +21,11 @@ Parameters:
     type: datetime
     description: sorts by due date (descending)
 
-    name: ?sort_by=+createdDate (Optional)
+    name: ?sort_by=+createdAt (Optional)
     type: datetime
     description: sorts by created date (ascending)
 
-    name: ?sort_by=-createdDate (Optional)
+    name: ?sort_by=-createdAt (Optional)
     type: datetime
     description: sorts by created date (descending)
 

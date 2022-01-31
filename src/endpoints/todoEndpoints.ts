@@ -11,27 +11,48 @@ export default [
         path: '/tasks',
         handler: async(request:any ,h: any) => 
         {
+            // Add an empty array for filtering/sorting
+            var queriedTasks:Task[] = []
 
-            console.log(request.query)
-
+            // Checks for completed status parameter
             if (request.query.completed == 'true' || request.query.completed == 'false')
             {
-                var filteredTasks:Task[] = []
-
+                // Checks a task's status against the requested parameter
                 for (var i = 0; i < Tasks.length; i ++)
                 {
+                    // Add task to the new array if the status matches
                     if (Tasks[i].completed.toString() == request.query.completed)
                     {
-                        filteredTasks.push(Tasks[i]);
+                        queriedTasks.push(Tasks[i]);
                     }
                 }
-
-                return filteredTasks
+            }
+            else
+            {
+                queriedTasks = Tasks;
             }
 
+            switch (request.query.sort_by)
+            {
+                case 'createdAt.asc':
+                    queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+                    break;
 
-            // Returns the whole array
-            return Tasks;
+                case 'createdAt.desc':
+                    queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+                    break;
+
+                case 'dueDate.asc':
+                    queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
+                    break;
+
+                case 'dueDate.desc':
+                    queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
+                    break;
+            }
+
+            // Returns the filtered/sorted array
+            return queriedTasks;
         }
     },
     
@@ -105,7 +126,7 @@ export default [
             let Task = Tasks[request.params.id - 1]
             
             // ID and Date Created are inmutable. 
-            Task.id = request.params.id;
+            Task.id = Number(request.params.id);
             Task.taskDescription = request.payload.taskDescription;
             Task.createdAt = Task.createdAt;
             Task.dueDate = request.payload.dueDate;
@@ -126,8 +147,7 @@ export default [
             }, 
             h: any) =>
         {
-            delete Tasks[request.params.id - 1];
-
+            Tasks.splice((request.params.id - 1), 1)
             return null;
         }
     }
