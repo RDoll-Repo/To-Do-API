@@ -1,5 +1,6 @@
+import { ITask } from "../services/TaskRepository";
 
-export class Task {
+export class Task implements ITask{
     id: number;
     taskDescription: string;
     createdAt: Date;
