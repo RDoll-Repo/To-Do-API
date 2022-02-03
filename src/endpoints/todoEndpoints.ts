@@ -1,6 +1,6 @@
 'use strict';
 
-import { ITask, getTasks, fetchTask, createTask } from "../services/TaskRepository";
+import { ITask, getTasks, fetchTask, createTask, updateTask, deleteTask } from "../services/TaskRepository";
 import { ResponseToolkit } from "hapi";
 import { UrlWithParsedQuery } from "url";
 import {Tasks} from "../models/ArrayModel"
@@ -37,7 +37,7 @@ export default [
                 queriedTasks = allTasks;
             }
 
-            // Selects case based upon what query paramter was entered for sorting. 
+            // Selects case based upon what query parameter was entered for sorting. 
             switch (request.query.sort_by)
             {
                 case 'createdAt':
@@ -137,7 +137,7 @@ export default [
         ) =>
         {
             // Update the correct task
-            let Task = Tasks[request.params.id - 1]
+            let Task:ITask = fetchTask(request.params.id)
             
             // ID and Date Created are inmutable. 
             Task.id = Number(request.params.id);
@@ -146,7 +146,7 @@ export default [
             Task.dueDate = request.payload.dueDate;
             Task.completed = request.payload.completed;
 
-            Tasks[request.params.id - 1] = Task;
+            updateTask(Task)
             return Task;
         }
     },
@@ -161,7 +161,7 @@ export default [
             }, 
             h: string) =>
         {
-            Tasks.splice((request.params.id - 1), 1)
+            deleteTask(request.params.id - 1)
             return null;
         }
     }

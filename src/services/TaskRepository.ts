@@ -25,33 +25,11 @@ export function createTask(task:ITask){
     Tasks.push(task);
 }
 
-export function updateTask(id:number){
+export function updateTask(updatedTask:Task){
+    Tasks[updatedTask.id - 1] = updatedTask
 
 }
 
 export function deleteTask(id:number){
-
+    Tasks.splice((id), 1)
 }
-
-// function create() {
-            
-// }  
-
-// function fetch(id: number){
-
-// }
-
-// function getAll(list: Task[]){
-
-// }
-
-// function update(updatedTask: Task){
-
-// }
-
-// function delete(id: number){
-
-// }
-
-
-
