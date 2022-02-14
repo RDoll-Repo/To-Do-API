@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 
 import Routes from './src/endpoints/todoEndpoints'
 
+
 const init = async () =>
 {
     const server = Hapi.server(
@@ -27,4 +28,3 @@ process.on('unhandled rejection', (err) =>
 });
 
 init();
-
