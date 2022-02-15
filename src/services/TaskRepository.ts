@@ -1,18 +1,9 @@
-//import { Tasks } from "../models/ArrayModel";
 export class TaskRepo {
-    getTasks(completion:boolean, sortBy:string, sortOrder:string){
-        var queriedTasks:Task[]
+    getTasks(completion:string, sortBy:string, sortOrder:string){
+        var queriedTasks:ITask[] = Tasks
 
-        switch (completion)
-        {
-            case true:
-                queriedTasks = Tasks.filter(Task => Task.completed == true);
-                break;
-            case false:
-                queriedTasks = Tasks.filter(Task => Task.completed == false);
-                break;
-            default:
-                queriedTasks = Tasks;
+        if (completion != undefined){
+            queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
         }
 
         // Selects case based upon what query parameter was entered for sorting. 
@@ -45,47 +36,44 @@ export class TaskRepo {
     }
 
     fetchTask(id:number){
-        return Tasks[Tasks.findIndex(Task => Task.id == id)]
+        var index = Tasks.findIndex(Task => Task.id == id)
+        
+        if (index == -1) {
+            return "There is no task with this ID."
+        } else {return Tasks[index]}
     }
 
     createTask(desc:string, due:Date, completed: boolean){
-        var newTask = new Task((Tasks.length + 1), desc, new Date, due, completed)
+        const maxID = Math.max.apply(null, Tasks.map(Task => Task.id))
+        
+        const newTask = {id:(maxID + 1), taskDescription:desc, createdAt:new Date, dueDate:due, completed:completed}
         
         Tasks.push(newTask)
     }
 
     updateTask(id:number, desc:string, due:Date, completed: boolean){
-        Tasks[Tasks.findIndex(Task => Task.id == id)].taskDescription = desc
-        Tasks[Tasks.findIndex(Task => Task.id == id)].dueDate = due
-        Tasks[Tasks.findIndex(Task => Task.id == id)].completed = completed
+        const index = Tasks.findIndex(Task => Task.id == id)
 
-        return Tasks[Tasks.findIndex(Task => Task.id == id)]
+        if (index == -1) {
+            return "There is no task with this ID"
+        } else {
+            Tasks[index].taskDescription = desc
+            Tasks[index].dueDate = due
+            Tasks[index].completed = completed
+        }
+        
+        return Tasks[index]
     }
 
     deleteTask(id:number){
-        Tasks.splice(Tasks.findIndex(Task => Task.id == id), 1)
+        const index = Tasks.findIndex(Task => Task.id == id)
+
+        if (index == -1)
+        {
+            return "There is no task with this ID."
+        } else {Tasks.splice(index, 1); return null}
     }
 }
-
-
-
-class Task implements ITask
-{   
-    id:number;
-    taskDescription:string;
-    createdAt: Date;
-    dueDate:Date;
-    completed:boolean;
-
-    constructor(id:number, taskDescription:string, createdAt:Date, dueDate:Date, completed:boolean){
-        this.id = id;
-        this.taskDescription = taskDescription;
-        this.createdAt = createdAt;
-        this.dueDate = dueDate;
-        this.completed = completed;
-    }
-}
-
 
 
 interface ITask {
@@ -99,10 +87,10 @@ interface ITask {
 export const repo = new TaskRepo
 
 
-const task1 = new Task(1, "TypeScript", new Date('12/30/2021'), new Date('12/30/2021'), true)
-const task2 = new Task(2, "Hapi", new Date('3/30/2022'), new Date("02/14/2021"), false)
-const task3 = new Task(3, "Prototype API", new Date("01/12/2022"), new Date ("1/14/2022"),false)
-const task4 = new Task(4, "Trash", new Date("01/14/2022"), new Date("1/26/2025"),false)
+const task1 = {id:1, taskDescription:"TypeScript", createdAt:new Date('12/30/2021'), dueDate:new Date('12/30/2021'), completed:true}
+const task2 = {id:2, taskDescription:"Hapi", createdAt:new Date('3/30/2022'), dueDate:new Date("02/14/2021"), completed:false}
+const task3 = {id:3, taskDescription:"Prototype API", createdAt:new Date("01/12/2022"), dueDate:new Date ("1/14/2022"),completed:false}
+const task4 = {id:4, taskDescription:"Trash", createdAt:new Date("01/14/2022"), dueDate:new Date("1/26/2025"),completed:false}
 
 // Array to prototype hapi + postman with. 
 let Tasks =
