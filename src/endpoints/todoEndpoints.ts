@@ -10,7 +10,7 @@ export default [
         path: '/tasks',
         handler: async(request: {
                     query: {
-                        completed:boolean,
+                        completed:string,
                         sort_by:string,
                         order_by:string}
                     }, h: string) => 
@@ -89,8 +89,7 @@ export default [
             }, 
             h: string) =>
         {
-            repo.deleteTask(request.params.id)
-            return null;
+            return repo.deleteTask(request.params.id)
         }
     }
 ]
