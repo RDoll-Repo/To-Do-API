@@ -1,8 +1,8 @@
 export class TaskRepo {
     getTasks(completion:string, sortBy:string, sortOrder:string){
-        var queriedTasks:ITask[] = Tasks
+        var queriedTasks:ITask[] = [ ...Tasks ]
 
-        if (completion != undefined){
+        if (completion != undefined || completion != null){
             queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
         }
 
@@ -35,11 +35,11 @@ export class TaskRepo {
         return queriedTasks;
     }
 
-    fetchTask(id:number){
+    fetchTask(id:number): ITask | null{
         var index = Tasks.findIndex(Task => Task.id == id)
         
         if (index == -1) {
-            return "There is no task with this ID."
+            return null
         } else {return Tasks[index]}
     }
 
@@ -51,11 +51,11 @@ export class TaskRepo {
         Tasks.push(newTask)
     }
 
-    updateTask(id:number, desc:string, due:Date, completed: boolean){
+    updateTask(id:number, desc:string, due:Date, completed: boolean): ITask | null {
         const index = Tasks.findIndex(Task => Task.id == id)
 
         if (index == -1) {
-            return "There is no task with this ID"
+            return null
         } else {
             Tasks[index].taskDescription = desc
             Tasks[index].dueDate = due
@@ -65,13 +65,12 @@ export class TaskRepo {
         return Tasks[index]
     }
 
-    deleteTask(id:number){
+    deleteTask(id:number):number{
         const index = Tasks.findIndex(Task => Task.id == id)
 
-        if (index == -1)
-        {
-            return "There is no task with this ID."
-        } else {Tasks.splice(index, 1); return null}
+        if (index != -1) {Tasks.splice(index, 1)}
+
+        return index
     }
 }
 
