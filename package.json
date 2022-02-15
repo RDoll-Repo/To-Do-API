@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc --outdir dist && node dist/index.js"
+    "test": "tsc --outdir dist && node dist/sequelize.js"
   },
   "repository": {
     "type": "git",

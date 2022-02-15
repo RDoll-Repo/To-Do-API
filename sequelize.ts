@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes} = require('sequelize');
 
-const sequelize = new Sequelize('db', 'root', 'password', {
-    host: '127.0.0.1',
+const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
+    host: 'localhost',
     port: 3306,
     dialect: 'mysql'    
 })
