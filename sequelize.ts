@@ -39,13 +39,43 @@ async function testConnection(){
     try {
         await sequelize.authenticate();
         console.log("Connected");
-        const [results, metadata] = await sequelize.query('SELECT * FROM TTasks')
-        console.log(results)
-
+        //rawGetAllTest();
+        //rawFetchTest(3);
+        //rawInsertTest();
+        //rawDeleteTest(15);
+        rawUpdateTest('taskDescription', 'Sequelize', 2);
+        //rawGetAllTest();
     }catch(err) {
-        console.log("Can't connect :(")
+        console.log("Can't connect :(");
     }
-
 }
+
+async function rawGetAllTest() {
+    const [results, metadata] = await sequelize.query('SELECT * FROM TTasks');
+    console.log(results);
+}
+
+async function rawFetchTest(id:number) {
+    const [results, metadata] = await sequelize.query('SELECT * FROM TTasks WHERE id = ' + id);
+    console.log(results);
+}
+
+async function rawInsertTest() {
+    const [results, metadata] = await sequelize.query('INSERT INTO TTasks (id, taskDescription, createdAt, duedate, completed)' + 
+    ' VALUES (15, "i squash da bug", "2022-3-30", "2021-02-14", false)');
+    console.log(metadata);
+}
+
+async function rawUpdateTest(attribute:string, newVal:string, id:number) {
+    const [results, metadata] = await sequelize.query('UPDATE TTasks SET ' + attribute + ' = ' + '"' + newVal + '"' + ' WHERE ID = ' + id);
+    console.log(results);
+}
+
+async function rawDeleteTest(id:number) {
+    const [results, metadata] = await sequelize.query('DELETE FROM TTasks WHERE id = ' + id);
+    console.log(metadata);
+}
+
+
 
 testConnection();
