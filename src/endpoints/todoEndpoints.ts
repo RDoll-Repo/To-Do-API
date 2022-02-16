@@ -31,7 +31,11 @@ export default [
                 h: string) => 
         {
             // Returns one element of the array
-            return repo.fetchTask(request.params.id)
+            var response = repo.fetchTask(request.params.id)
+
+            if (response == null) {
+                return "There is no task with this ID."
+            } else {return response}
         }
     },
 
@@ -74,8 +78,12 @@ export default [
         h: string
         ) =>
         {
-            return repo.updateTask(request.params.id, request.payload.taskDescription, 
+            var response = repo.updateTask(request.params.id, request.payload.taskDescription, 
                 request.payload.dueDate, request.payload.completed)
+
+            if (response == null) {
+                return "There is no task with this ID."
+            } else {return response}
         }
     },
 
@@ -89,7 +97,9 @@ export default [
             }, 
             h: string) =>
         {
-            return repo.deleteTask(request.params.id)
+            if (repo.deleteTask(request.params.id) == -1) {
+                return "There is no task with this ID."
+            } else {return null}      
         }
     }
 ]
