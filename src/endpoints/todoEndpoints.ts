@@ -97,9 +97,8 @@ export default [
             }, 
             h: string) =>
         {
-            if (repo.deleteTask(request.params.id) == -1) {
-                return "There is no task with this ID."
-            } else {return null}      
+            repo.deleteTask(request.params.id);
+            return null
         }
     }
 ]

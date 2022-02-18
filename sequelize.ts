@@ -42,43 +42,37 @@ export async function testConnection(){
     try {
         await sequelize.authenticate();
         console.log("Connected");
-
-        //InsertTest();
-        //GetAllTest();
-        //FetchTest(3);
-        //rawDeleteTest(15);
-        //rawUpdateTest('taskDescription', 'Sequelize', 2);
-        //rawGetAllTest();
     }catch(err) {
-        console.log("Can't connect :(");
+        console.log("Either there's a connection error, or Roland did something very wrong.");
     }
 }
 
 export async function GetAllTest() {
+    var queryString:string;
+    
     const [results, metadata] = await sequelize.query('SELECT * FROM Tasks');
-    console.log(results);
-    return results
+    return results;
 }
 
 export async function FetchTest(fetchID:number) {
     const [results, metadata] = await sequelize.query('SELECT * FROM Tasks WHERE id = ' + fetchID);
-    console.log(results);
-    return results
+    return results;
 }
 
 export async function InsertTest(newTask:any) {
+    // I am using a placeholder createdAt to appease MySQL since in practice (ie: when models are integrated)
+    // sequelize will provide the createdAt
     const [results, metadata] = await sequelize.query('INSERT INTO Tasks (id, taskDescription, createdAt, dueDate, completed) '+
-    `VALUES (${newTask.id}, "${newTask.taskDescription}", '${newTask.createdAt}', '${newTask.dueDate}', ${newTask.completed})`);
+    `VALUES (${newTask.id}, "${newTask.taskDescription}", '2022-01-01', '${newTask.dueDate}', ${newTask.completed})`);
 }
 
 export async function rawUpdateTest(attribute:string, newVal:string, id:number) {
-    const [results, metadata] = await sequelize.query('UPDATE TTasks SET ' + attribute + ' = ' + '"' + newVal + '"' + ' WHERE ID = ' + id);
+    const [results, metadata] = await sequelize.query('UPDATE Tasks SET ' + attribute + ' = ' + '"' + newVal + '"' + ' WHERE ID = ' + id);
     console.log(results);
 }
 
-export function rawDeleteTest(id:number) {
-    const [results, metadata] = sequelize.query('DELETE FROM TTasks WHERE id = ' + id);
-    console.log(metadata);
+export async function Delete(id:number) {
+    const [results, metadata] = await sequelize.query('DELETE FROM Tasks WHERE id = ' + id);
 }
 
 testConnection();

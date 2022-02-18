@@ -12,6 +12,9 @@ export class TaskRepo {
     getTasks(completion:string, sortBy:string, sortOrder:string){
         var queriedTasks:ITask[] = [ ...Tasks ]
 
+        // This tells the sequelize function how to
+        var sortKey:number[] = [0,0]
+
         if (completion != undefined || completion != null){
             queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
         }
@@ -53,31 +56,18 @@ export class TaskRepo {
     createTask(desc:string, due:Date, completed: boolean){
         const maxID = Math.max.apply(null, Tasks.map(Task => Task.id))
         
-        const newTask = {id:71, taskDescription:desc, createdAt:new Date, dueDate:due, completed:completed}
+        const newTask = {id:75, taskDescription:desc, dueDate:due, completed:completed}
         
         db.InsertTest(newTask)
     }
 
-    updateTask(id:number, desc:string, due:Date, completed: boolean): ITask | null {
-        const index = Tasks.findIndex(Task => Task.id == id)
-
-        if (index == -1) {
-            return null
-        } else {
-            Tasks[index].taskDescription = desc
-            Tasks[index].dueDate = due
-            Tasks[index].completed = completed
-        }
-        
-        return Tasks[index]
+    updateTask(id:number, desc:string, due:Date, completed: boolean) {
+        console.log('wait')
     }
 
-    deleteTask(id:number):number{
-        const index = Tasks.findIndex(Task => Task.id == id)
-
-        if (index != -1) {Tasks.splice(index, 1)}
-
-        return index
+    deleteTask(id:number) { 
+        db.Delete(id)
+        return null
     }
 }
 
