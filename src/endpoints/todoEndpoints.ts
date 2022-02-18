@@ -26,12 +26,12 @@ export default [
         handler: (  
             request: { 
                 params: { 
-                    id: number; }; 
+                    id: string; }; 
                 }, 
                 h: string) => 
         {
             // Returns one element of the array
-            var response = repo.fetchTask(request.params.id)
+            var response = repo.fetchTask(parseInt(request.params.id))
 
             if (response == null) {
                 return "There is no task with this ID."

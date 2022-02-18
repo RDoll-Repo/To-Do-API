@@ -1,3 +1,13 @@
+import * as db from '../../sequelize'
+
+const {Sequelize, DataTypes} = require('sequelize');
+
+const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
+    host: 'localhost',
+    port: 3306,
+    dialect: 'mysql'    
+})
+
 export class TaskRepo {
     getTasks(completion:string, sortBy:string, sortOrder:string){
         var queriedTasks:ITask[] = [ ...Tasks ]
@@ -5,7 +15,6 @@ export class TaskRepo {
         if (completion != undefined || completion != null){
             queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
         }
-
         // Selects case based upon what query parameter was entered for sorting. 
         switch (sortBy)
         {
@@ -35,20 +44,18 @@ export class TaskRepo {
         return queriedTasks;
     }
 
-    fetchTask(id:number): ITask | null{
-        var index = Tasks.findIndex(Task => Task.id == id)
-        
-        if (index == -1) {
-            return null
-        } else {return Tasks[index]}
+    fetchTask(id:number) {
+        var result = (db.FetchTest(id));
+
+        return result
     }
 
     createTask(desc:string, due:Date, completed: boolean){
         const maxID = Math.max.apply(null, Tasks.map(Task => Task.id))
         
-        const newTask = {id:(maxID + 1), taskDescription:desc, createdAt:new Date, dueDate:due, completed:completed}
+        const newTask = {id:71, taskDescription:desc, createdAt:new Date, dueDate:due, completed:completed}
         
-        Tasks.push(newTask)
+        db.InsertTest(newTask)
     }
 
     updateTask(id:number, desc:string, due:Date, completed: boolean): ITask | null {
