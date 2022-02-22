@@ -1,50 +1,41 @@
 import * as db from '../../sequelize'
-
-const {Sequelize, DataTypes} = require('sequelize');
-
-const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
-    host: 'localhost',
-    port: 3306,
-    dialect: 'mysql'    
-})
-
 export class TaskRepo {
     getTasks(completion:string, sortBy:string, sortOrder:string){
-        var queriedTasks:ITask[] = [ ...Tasks ]
+        // var queriedTasks:ITask[] = [ ...Tasks ]
 
-        // This tells the sequelize function how to
-        var sortKey:number[] = [0,0]
+        // // This tells the sequelize function how to
+        // var sortKey:number[] = [0,0]
 
-        if (completion != undefined || completion != null){
-            queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
-        }
-        // Selects case based upon what query parameter was entered for sorting. 
-        switch (sortBy)
-        {
-            case 'createdAt':
+        // if (completion != undefined || completion != null){
+        //     queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
+        // }
+        // // Selects case based upon what query parameter was entered for sorting. 
+        // switch (sortBy)
+        // {
+        //     case 'createdAt':
                 
-                if (sortOrder == 'asc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
-                }
-                else if (sortOrder == 'desc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
-                }
-                break;
+        //         if (sortOrder == 'asc')
+        //         {
+        //             queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+        //         }
+        //         else if (sortOrder == 'desc')
+        //         {
+        //             queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+        //         }
+        //         break;
 
-            case 'dueDate':
-                if (sortOrder == 'asc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
-                }
-                else if (sortOrder == 'desc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
-                }
-                break;
-        }
-        return queriedTasks;
+        //     case 'dueDate':
+        //         if (sortOrder == 'asc')
+        //         {
+        //             queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
+        //         }
+        //         else if (sortOrder == 'desc')
+        //         {
+        //             queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
+        //         }
+        //         break;
+        // }
+        return db.GetAll()
     }
 
     fetchTask(id:number) {
@@ -62,7 +53,7 @@ export class TaskRepo {
     }
 
     updateTask(id:number, desc:string, due:Date, completed: boolean) {
-        console.log('wait')
+        //db.Update(id, desc, due, completed)
     }
 
     deleteTask(id:number) { 

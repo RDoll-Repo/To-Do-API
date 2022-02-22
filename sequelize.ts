@@ -1,10 +1,25 @@
 const {Sequelize, DataTypes, QueryTypes} = require('sequelize');
+const instances = require('hapi-sequelizejs').instances;
+
 
 const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
     host: 'localhost',
     port: 3306,
     dialect: 'mysql'    
 })
+console.log(instances)
+
+// export async function testConnection(){
+
+//     try {
+//         await sequelize.authenticate();
+//         console.log("Connected");
+//     }catch(err) {
+//         console.log("Either there's a connection error, or Roland did something very wrong.");
+//     }
+// }
+
+//testConnection();
 
 
 // No need for a model at the moment, but keeping this commented out until its needed.
@@ -36,18 +51,7 @@ const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
 //     updatedAt:false
 // });
 
-
-export async function testConnection(){
-
-    try {
-        await sequelize.authenticate();
-        console.log("Connected");
-    }catch(err) {
-        console.log("Either there's a connection error, or Roland did something very wrong.");
-    }
-}
-
-export async function GetAllTest() {
+export async function GetAll() {
     var queryString:string;
     
     const [results, metadata] = await sequelize.query('SELECT * FROM Tasks');
@@ -74,5 +78,3 @@ export async function rawUpdateTest(attribute:string, newVal:string, id:number) 
 export async function Delete(id:number) {
     const [results, metadata] = await sequelize.query('DELETE FROM Tasks WHERE id = ' + id);
 }
-
-testConnection();

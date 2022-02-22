@@ -30,6 +30,7 @@ export default [
                 }, 
                 h: string) => 
         {
+
             // Returns one element of the array
             var response = repo.fetchTask(parseInt(request.params.id))
 
