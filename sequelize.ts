@@ -1,3 +1,5 @@
+import { any, date, number } from "joi";
+
 const {Sequelize, DataTypes, QueryTypes} = require('sequelize');
 const instances = require('hapi-sequelizejs').instances;
 
@@ -34,17 +36,15 @@ export async function FetchTest(fetchID:number) {
     return results;
 }
 
-
-export async function InsertTest(newTask:any) {
-    // I am using a placeholder createdAt to appease MySQL since in practice (ie: when models are integrated)
-    // sequelize will provide the createdAt
+export async function InsertTest(newTask:any, created:string) {         // Sequelize Autogens ID
     const [results] = await instances.dbs.ToDoAPI.sequelize.query(
-        'INSERT INTO Tasks (id, taskDescription, createdAt, dueDate, completed) '+
-        `VALUES (${newTask.id}, "${newTask.taskDescription}", '2022-01-01', '${newTask.dueDate}
+        'INSERT INTO Tasks (taskDescription, createdAt, dueDate, completed) '+
+        `VALUES ("${newTask.taskDescription}", '${created}', '${newTask.dueDate}
         ', ${newTask.completed})`
     )
     return results;
 }
+
 
 export async function Update(id:number, desc:string, due:Date, completed:boolean) {
     const [results] = await instances.dbs.ToDoAPI.sequelize.query(

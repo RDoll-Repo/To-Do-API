@@ -10,9 +10,16 @@ export class TaskRepo {
     }
 
     createTask(desc:string, due:Date, completed: boolean){
-        const newTask = {id:68, taskDescription:desc, dueDate:due, completed:completed}
-        
-        return db.InsertTest(newTask)
+        const newTask:ITask = {
+            id: 0,
+            taskDescription:desc, 
+            createdAt: new Date(),
+            dueDate:due, 
+            completed:completed
+        }
+        const created = newTask.createdAt.toISOString().split('T')[0]
+
+        return db.InsertTest(newTask, created)
     }
 
     updateTask(id:number, desc:string, due:Date, completed: boolean) {

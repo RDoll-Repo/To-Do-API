@@ -54,7 +54,7 @@ export default [
                 }, 
                 h: ResponseToolkit) =>
         {
-            repo.createTask(request.payload.taskDescription, request.payload.dueDate, request.payload.completed)
+            repo.createTask(request.payload.taskDescription, request.payload.dueDate, request.payload.completed) 
 
             // hapi sends a 200 OK by default, so I'm specifiying a 201 here.
             return h.response().code(201)
