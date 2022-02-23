@@ -7,7 +7,7 @@ const instances = require('hapi-sequelizejs').instances;
 
 
 export async function GetAll(filter:string, sort: string, order: string = 'asc') {
-    
+    // Start with a GetAll. Build as we go along by checking parameters 
     var queryString = "SELECT * FROM Tasks ";
 
     if (filter != null && filter != undefined)

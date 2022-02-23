@@ -10,13 +10,13 @@ export class TaskRepo {
     }
 
     createTask(desc:string, due:Date, completed: boolean){
-        const newTask = {id:65, taskDescription:desc, dueDate:due, completed:completed}
+        const newTask = {id:68, taskDescription:desc, dueDate:due, completed:completed}
         
-        db.InsertTest(newTask)
+        return db.InsertTest(newTask)
     }
 
     updateTask(id:number, desc:string, due:Date, completed: boolean) {
-        db.Update(id, desc, due, completed)
+        return db.Update(id, desc, due, completed)
     }
 
     deleteTask(id:number) { 
