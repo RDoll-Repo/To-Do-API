@@ -1,15 +1,34 @@
-import * as db from '../../sequelize'
+const instances = require('hapi-sequelizejs').instances;
 export class TaskRepo {
-    getTasks(completion:string, sortBy:string, sortOrder:string){
-        return db.GetAll(completion, sortBy, sortOrder)
+    
+    async getTasks(completion:string, sortBy:string, sortOrder:string){
+        var queryString = "SELECT * FROM Tasks ";
+
+        if (completion != null && completion != undefined)
+        {
+            queryString += `WHERE completed = ${completion} `;
+        }
+
+        if (sortBy != null && sortBy != undefined)
+        {
+            queryString += `ORDER BY ${sortBy} ${sortOrder}`;
+        }
+        
+        var [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            queryString
+        )
+
+        return results;
     }
 
-    fetchTask(id:number) {
-        var result = (db.FetchTest(id));
-        return result
+    async fetchTask(id:number) {
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'SELECT * FROM Tasks WHERE id = ' + id
+        )
+        return results;
     }
 
-    createTask(desc:string, due:Date, completed: boolean){
+    async createTask(desc:string, due:Date, completed: boolean){
         const newTask:ITask = {
             id: 0,
             taskDescription:desc, 
@@ -19,16 +38,30 @@ export class TaskRepo {
         }
         const created = newTask.createdAt.toISOString().split('T')[0]
 
-        return db.InsertTest(newTask, created)
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'INSERT INTO Tasks (taskDescription, createdAt, dueDate, completed) '+
+            `VALUES ("${newTask.taskDescription}", '${created}', '${newTask.dueDate}
+            ', ${newTask.completed})`
+        )
+        return results;
     }
 
-    updateTask(id:number, desc:string, due:Date, completed: boolean) {
-        return db.Update(id, desc, due, completed)
+    async updateTask(id:number, desc:string, due:Date, completed: boolean) {
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'UPDATE Tasks SET ' +
+            `taskDescription = "${desc}", ` +
+            `dueDate = '${due}', ` +
+            `completed = ${completed} ` +
+            `WHERE id = ${id}`
+        )
+        return results
     }
 
-    deleteTask(id:number) { 
-        db.Delete(id)
-        return null
+    async deleteTask(id:number) { 
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'DELETE FROM Tasks WHERE id = ' + id
+        )
+        return results;
     }
 }
 
