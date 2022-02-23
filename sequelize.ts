@@ -1,10 +1,29 @@
 const {Sequelize, DataTypes, QueryTypes} = require('sequelize');
 const instances = require('hapi-sequelizejs').instances;
 
-export async function GetAll() {
-    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
-        'SELECT * FROM Tasks'
+// TO DO (during models): 
+// -Convert IDs to GUID/UUID once models are being used. 
+// -Autogen createdAt
+
+
+export async function GetAll(filter:string, sort: string, order: string = 'asc') {
+    
+    var queryString = "SELECT * FROM Tasks ";
+
+    if (filter != null && filter != undefined)
+    {
+        queryString += `WHERE completed = ${filter} `;
+    }
+
+    if (sort != null && sort != undefined)
+    {
+        queryString += `ORDER BY ${sort} ${order}`;
+    }
+    
+    var [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        queryString
     )
+
     return results;
 }
 
