@@ -1,25 +1,51 @@
 const {Sequelize, DataTypes, QueryTypes} = require('sequelize');
 const instances = require('hapi-sequelizejs').instances;
 
+export async function GetAll() {
+    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        'SELECT * FROM Tasks'
+    )
+    return results;
+}
 
-const sequelize = new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
-    host: 'localhost',
-    port: 3306,
-    dialect: 'mysql'    
-})
-console.log(instances)
+export async function FetchTest(fetchID:number) {
+    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        'SELECT * FROM Tasks WHERE id = ' + fetchID
+    )
+    return results;
+}
 
-// export async function testConnection(){
 
-//     try {
-//         await sequelize.authenticate();
-//         console.log("Connected");
-//     }catch(err) {
-//         console.log("Either there's a connection error, or Roland did something very wrong.");
-//     }
-// }
+export async function InsertTest(newTask:any) {
+    // I am using a placeholder createdAt to appease MySQL since in practice (ie: when models are integrated)
+    // sequelize will provide the createdAt
+    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        'INSERT INTO Tasks (id, taskDescription, createdAt, dueDate, completed) '+
+        `VALUES (${newTask.id}, "${newTask.taskDescription}", '2022-01-01', '${newTask.dueDate}
+        ', ${newTask.completed})`
+    )
+    return results;
+}
 
-//testConnection();
+export async function Update(id:number, desc:string, due:Date, completed:boolean) {
+    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        'UPDATE Tasks SET ' +
+        `taskDescription = "${desc}", ` +
+        `dueDate = '${due}', ` +
+        `completed = ${completed} ` +
+        `WHERE id = ${id}`
+    )
+    return results
+}
+
+export async function Delete(id:number) {
+    const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+        'DELETE FROM Tasks WHERE id = ' + id
+    )
+    return results;
+}
+
+
 
 
 // No need for a model at the moment, but keeping this commented out until its needed.
@@ -50,31 +76,3 @@ console.log(instances)
 // }, {
 //     updatedAt:false
 // });
-
-export async function GetAll() {
-    var queryString:string;
-    
-    const [results, metadata] = await sequelize.query('SELECT * FROM Tasks');
-    return results;
-}
-
-export async function FetchTest(fetchID:number) {
-    const [results, metadata] = await sequelize.query('SELECT * FROM Tasks WHERE id = ' + fetchID);
-    return results;
-}
-
-export async function InsertTest(newTask:any) {
-    // I am using a placeholder createdAt to appease MySQL since in practice (ie: when models are integrated)
-    // sequelize will provide the createdAt
-    const [results, metadata] = await sequelize.query('INSERT INTO Tasks (id, taskDescription, createdAt, dueDate, completed) '+
-    `VALUES (${newTask.id}, "${newTask.taskDescription}", '2022-01-01', '${newTask.dueDate}', ${newTask.completed})`);
-}
-
-export async function rawUpdateTest(attribute:string, newVal:string, id:number) {
-    const [results, metadata] = await sequelize.query('UPDATE Tasks SET ' + attribute + ' = ' + '"' + newVal + '"' + ' WHERE ID = ' + id);
-    console.log(results);
-}
-
-export async function Delete(id:number) {
-    const [results, metadata] = await sequelize.query('DELETE FROM Tasks WHERE id = ' + id);
-}

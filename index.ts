@@ -1,6 +1,5 @@
 'use strict';
 
-
 const Hapi = require('@hapi/hapi');
 const Sequelize = require('sequelize')
 import Routes from './src/endpoints/todoEndpoints'
