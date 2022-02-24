@@ -1,3 +1,5 @@
+import { QueryTypes } from "sequelize";
+
 const instances = require('hapi-sequelizejs').instances;
 export class TaskRepo {
     
@@ -23,7 +25,11 @@ export class TaskRepo {
 
     async fetchTask(id:number) {
         const [results] = await instances.dbs.ToDoAPI.sequelize.query(
-            'SELECT * FROM Tasks WHERE id = ' + id
+            'SELECT * FROM Tasks WHERE id = ?',
+            {
+                replacements: [id],
+                type: QueryTypes.SELECT
+            }
         )
         return results;
     }
@@ -74,3 +80,37 @@ interface ITask {
 }
 
 export const repo = new TaskRepo
+
+
+// TO DO (during models): 
+// -Convert IDs to GUID/UUID once models are being used. 
+// -Autogen createdAt
+
+// No need for a model at the moment, but keeping this commented out until its needed.
+// const Task = Sequelize.define('Task', { 
+//     id: {
+//         // ID as UUID, Sequelize can autogenerate a UUID
+//         type: DataTypes.UUID,
+//         allowNull: false,
+//         defaultValue: DataTypes.UUIDV4,
+//         primaryKey: true
+//     },
+//     taskDescription: {
+//         // 255 chars should be sufficient.
+//         type: DataTypes.STRING,
+//         allowNull: false
+//     },
+//     dueDate: {
+//         // Sequelize gives createdAt by default, but we still need due date
+//         type: DataTypes.DATEONLY,
+//         allowNull: false
+//     },
+//     completed: {
+//         // Default to false (incomplete) since the user likely wouldn't put incomplete items on the list
+//         type: DataTypes.BOOLEAN,
+//         allowNull: false,
+//         defaultValue: false
+//     } 
+// }, {
+//     updatedAt:false
+// });
