@@ -9,6 +9,7 @@ export class TaskRepo {
         if (completion != null && completion != undefined)
         {
             queryString += `WHERE completed = ${completion} `;
+
         }
 
         if (sortBy != null && sortBy != undefined)
@@ -19,7 +20,6 @@ export class TaskRepo {
         var [results] = await instances.dbs.ToDoAPI.sequelize.query(
             queryString
         )
-
         return results;
     }
 
@@ -124,3 +124,4 @@ export const repo = new TaskRepo
 // }, {
 //     updatedAt:false
 // });
+
