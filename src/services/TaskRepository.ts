@@ -46,8 +46,11 @@ export class TaskRepo {
 
         const [results] = await instances.dbs.ToDoAPI.sequelize.query(
             'INSERT INTO Tasks (taskDescription, createdAt, dueDate, completed) '+
-            `VALUES ("${newTask.taskDescription}", '${created}', '${newTask.dueDate}
-            ', ${newTask.completed})`
+            `VALUES (?, ?, ?, ?)`,
+            {
+                replacements:[desc, created, due, completed],
+                type: QueryTypes.INSERT
+            }
         )
         return results;
     }
@@ -55,17 +58,24 @@ export class TaskRepo {
     async updateTask(id:number, desc:string, due:Date, completed: boolean) {
         const [results] = await instances.dbs.ToDoAPI.sequelize.query(
             'UPDATE Tasks SET ' +
-            `taskDescription = "${desc}", ` +
-            `dueDate = '${due}', ` +
-            `completed = ${completed} ` +
-            `WHERE id = ${id}`
+            `taskDescription = ?, ` +
+            `dueDate = ?, ` +
+            `completed = ? ` +
+            `WHERE id = ?`,
+            {
+                replacements: [desc, due, completed, id],
+                type: QueryTypes.UPDATE
+            }
         )
         return results
     }
 
     async deleteTask(id:number) { 
         const [results] = await instances.dbs.ToDoAPI.sequelize.query(
-            'DELETE FROM Tasks WHERE id = ' + id
+            'DELETE FROM Tasks WHERE id = ?',
+            {
+                replacements: [id],
+            }
         )
         return results;
     }
