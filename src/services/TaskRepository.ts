@@ -1,79 +1,85 @@
+import { QueryTypes } from "sequelize";
+
+const instances = require('hapi-sequelizejs').instances;
 export class TaskRepo {
-    getTasks(completion:string, sortBy:string, sortOrder:string){
-        var queriedTasks:ITask[] = [ ...Tasks ]
+    
+    async getTasks(completion:string, sortBy:string, sortOrder:string){
+        var queryString = "SELECT * FROM Tasks ";
 
-        if (completion != undefined || completion != null){
-            queriedTasks = Tasks.filter(Task => Task.completed.toString() == completion)
-        }
-
-        // Selects case based upon what query parameter was entered for sorting. 
-        switch (sortBy)
+        if (completion != null && completion != undefined)
         {
-            case 'createdAt':
-                
-                if (sortOrder == 'asc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(a.createdAt) - +new Date(b.createdAt));
-                }
-                else if (sortOrder == 'desc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(b.createdAt) - +new Date(a.createdAt));
-                }
-                break;
+            queryString += `WHERE completed = ${completion} `;
 
-            case 'dueDate':
-                if (sortOrder == 'asc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(a.dueDate) - +new Date(b.dueDate));
-                }
-                else if (sortOrder == 'desc')
-                {
-                    queriedTasks.sort((a,b) => +new Date(b.dueDate) - +new Date(a.dueDate));
-                }
-                break;
         }
-        return queriedTasks;
-    }
 
-    fetchTask(id:number): ITask | null{
-        var index = Tasks.findIndex(Task => Task.id == id)
-        
-        if (index == -1) {
-            return null
-        } else {return Tasks[index]}
-    }
-
-    createTask(desc:string, due:Date, completed: boolean){
-        const maxID = Math.max.apply(null, Tasks.map(Task => Task.id))
-        
-        const newTask = {id:(maxID + 1), taskDescription:desc, createdAt:new Date, dueDate:due, completed:completed}
-        
-        Tasks.push(newTask)
-    }
-
-    updateTask(id:number, desc:string, due:Date, completed: boolean): ITask | null {
-        const index = Tasks.findIndex(Task => Task.id == id)
-
-        if (index == -1) {
-            return null
-        } else {
-            Tasks[index].taskDescription = desc
-            Tasks[index].dueDate = due
-            Tasks[index].completed = completed
+        if (sortBy != null && sortBy != undefined)
+        {
+            queryString += `ORDER BY ${sortBy} ${sortOrder}`;
         }
         
-        return Tasks[index]
+        var [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            queryString
+        )
+        return results;
     }
 
-    deleteTask(id:number):number{
-        const index = Tasks.findIndex(Task => Task.id == id)
+    async fetchTask(id:number) {
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'SELECT * FROM Tasks WHERE id = ?',
+            {
+                replacements: [id],
+                type: QueryTypes.SELECT
+            }
+        )
+        return results;
+    }
 
-        if (index != -1) {Tasks.splice(index, 1)}
+    async createTask(desc:string, due:Date, completed: boolean){
+        const newTask:ITask = {
+            id: 0,
+            taskDescription:desc, 
+            createdAt: new Date(),
+            dueDate:due, 
+            completed:completed
+        }
+        const created = newTask.createdAt.toISOString().split('T')[0]
 
-        return index
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'INSERT INTO Tasks (taskDescription, createdAt, dueDate, completed) '+
+            `VALUES (?, ?, ?, ?)`,
+            {
+                replacements:[desc, created, due, completed],
+                type: QueryTypes.INSERT
+            }
+        )
+        return results;
+    }
+
+    async updateTask(id:number, desc:string, due:Date, completed: boolean) {
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'UPDATE Tasks SET ' +
+            `taskDescription = ?, ` +
+            `dueDate = ?, ` +
+            `completed = ? ` +
+            `WHERE id = ?`,
+            {
+                replacements: [desc, due, completed, id],
+                type: QueryTypes.UPDATE
+            }
+        )
+        return results
+    }
+
+    async deleteTask(id:number) { 
+        const [results] = await instances.dbs.ToDoAPI.sequelize.query(
+            'DELETE FROM Tasks WHERE id = ?',
+            {
+                replacements: [id],
+            }
+        )
+        return results;
     }
 }
-
 
 interface ITask {
     id: number;
@@ -86,16 +92,36 @@ interface ITask {
 export const repo = new TaskRepo
 
 
-const task1 = {id:1, taskDescription:"TypeScript", createdAt:new Date('12/30/2021'), dueDate:new Date('12/30/2021'), completed:true}
-const task2 = {id:2, taskDescription:"Hapi", createdAt:new Date('3/30/2022'), dueDate:new Date("02/14/2021"), completed:false}
-const task3 = {id:3, taskDescription:"Prototype API", createdAt:new Date("01/12/2022"), dueDate:new Date ("1/14/2022"),completed:false}
-const task4 = {id:4, taskDescription:"Trash", createdAt:new Date("01/14/2022"), dueDate:new Date("1/26/2025"),completed:false}
+// TO DO (during models): 
+// -Convert IDs to GUID/UUID once models are being used. 
+// -Autogen createdAt
 
-// Array to prototype hapi + postman with. 
-let Tasks =
-[
-    task1,
-    task2,
-    task3,
-    task4
-];
+// No need for a model at the moment, but keeping this commented out until its needed.
+// const Task = Sequelize.define('Task', { 
+//     id: {
+//         // ID as UUID, Sequelize can autogenerate a UUID
+//         type: DataTypes.UUID,
+//         allowNull: false,
+//         defaultValue: DataTypes.UUIDV4,
+//         primaryKey: true
+//     },
+//     taskDescription: {
+//         // 255 chars should be sufficient.
+//         type: DataTypes.STRING,
+//         allowNull: false
+//     },
+//     dueDate: {
+//         // Sequelize gives createdAt by default, but we still need due date
+//         type: DataTypes.DATEONLY,
+//         allowNull: false
+//     },
+//     completed: {
+//         // Default to false (incomplete) since the user likely wouldn't put incomplete items on the list
+//         type: DataTypes.BOOLEAN,
+//         allowNull: false,
+//         defaultValue: false
+//     } 
+// }, {
+//     updatedAt:false
+// });
+

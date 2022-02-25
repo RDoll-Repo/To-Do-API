@@ -5,3 +5,9 @@ node_modules/
 dist/
 
 .vscode/
+
+docker-compose.yml
+
+docker/
+
+docker/db/mysql_data/ToDoAPI/tasks.ibd        

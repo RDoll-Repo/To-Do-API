@@ -26,12 +26,13 @@ export default [
         handler: (  
             request: { 
                 params: { 
-                    id: number; }; 
+                    id: string; }; 
                 }, 
                 h: string) => 
         {
+
             // Returns one element of the array
-            var response = repo.fetchTask(request.params.id)
+            var response = repo.fetchTask(parseInt(request.params.id))
 
             if (response == null) {
                 return "There is no task with this ID."
@@ -53,7 +54,7 @@ export default [
                 }, 
                 h: ResponseToolkit) =>
         {
-            repo.createTask(request.payload.taskDescription, request.payload.dueDate, request.payload.completed)
+            repo.createTask(request.payload.taskDescription, request.payload.dueDate, request.payload.completed) 
 
             // hapi sends a 200 OK by default, so I'm specifiying a 201 here.
             return h.response().code(201)
@@ -97,9 +98,8 @@ export default [
             }, 
             h: string) =>
         {
-            if (repo.deleteTask(request.params.id) == -1) {
-                return "There is no task with this ID."
-            } else {return null}      
+            repo.deleteTask(request.params.id);
+            return null
         }
     }
 ]
