@@ -4,7 +4,6 @@ const Task = require('../models/SequelizeModels');
 export class TaskRepo {
 
     async getTasks(completion:string, sortBy:string = 'dueDate', sortOrder:string = 'asc'){
-
         const query = Task.TaskModel()
         var results
 
@@ -42,7 +41,6 @@ export class TaskRepo {
     }
 
     async createTask(desc:string, due:Date, completed: boolean){
-
         const query = Task.TaskModel()
 
         const newTask = await query.create({
@@ -51,6 +49,7 @@ export class TaskRepo {
             dueDate:due, 
             completed:completed
         })
+
         return newTask
     }
 
@@ -91,8 +90,5 @@ interface ITask {
     dueDate: Date;
     completed: boolean;
 }
-
-
-
 
 export const repo = new TaskRepo
