@@ -3,11 +3,28 @@ const Task = require('../models/SequelizeModels');
 
 export class TaskRepo {
 
-    async getTasks(completion:string, sortBy:string, sortOrder:string){
-        // Add filtering and sorting 
-        const query = Task.TaskModel()
+    async getTasks(completion:string, sortBy:string = 'dueDate', sortOrder:string = 'asc'){
 
-        const results = query.findAll()
+        const query = Task.TaskModel()
+        var results
+
+        // if completion parameter isn't given, just give all tasks.
+        if (completion != null || completion != undefined){
+            results = query.findAll({
+                where: {
+                    completed : JSON.parse(completion),
+                },
+                order: [
+                    [sortBy , sortOrder]
+                ]
+            })
+        }else{
+            results = query.findAll({
+                order: [
+                    [sortBy , sortOrder]
+                ]
+            })
+        }
 
         return results
     }
