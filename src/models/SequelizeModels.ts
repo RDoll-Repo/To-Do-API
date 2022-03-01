@@ -1,7 +1,7 @@
 const instances = require('hapi-sequelizejs').instances;
 import { DataTypes, Sequelize } from "sequelize";
 
-module.exports.TaskModel = function () {
+module.exports.TaskModel = function() {
     const Task = instances.dbs.ToDoAPI.sequelize.define('Tasks', { 
         id: {
             // ID as auto-generated UUID
