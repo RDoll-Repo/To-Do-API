@@ -18,6 +18,7 @@ const init = async () =>
         options: [
             {
                 name: 'ToDoAPI',
+                models: [__dirname + './models/SequelizeModels'],
                 sequelize: new Sequelize('ToDoAPI', 'root', 'supersecretpass', {
                     host: 'localhost',
                     port: 3306,
@@ -26,6 +27,7 @@ const init = async () =>
             },
         ],
     }])
+    const instances = require('hapi-sequelizejs').instances
 
     // Generic route that handles all paths
     server.route(Routes)
